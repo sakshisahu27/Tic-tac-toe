@@ -1,12 +1,11 @@
-import React, { useRef, useState } from 'react'
-import './TicTacToe.css'
-import circle_icon from '../Assets/circle.png'
-import cross_icon from '../Assets/cross.png'
+import React, { useRef, useState } from 'react';
+import './TicTacToe.css';
+import circle_icon from '../Assets/circle.png';
+import cross_icon from '../Assets/cross.png';
 
 let data = ["", "", "", "", "", "", "", "", ""];
 
 const TicTacToe = () => {
-
     let [count, setCount] = useState(0);
     let [lock, setLock] = useState(false);
     let titleRef = useRef(null);
@@ -26,10 +25,10 @@ const TicTacToe = () => {
         if (data[num] !== "") return;  // Check if the box is already occupied
 
         if (count % 2 === 0) {
-            e.target.innerHTML = `<img src='${cross_icon}'>`;
+            e.target.innerHTML = `<img src='${cross_icon}' alt='cross'/>`;
             data[num] = "x";
         } else {
-            e.target.innerHTML = `<img src='${circle_icon}'>`;
+            e.target.innerHTML = `<img src='${circle_icon}' alt='circle'/>`;
             data[num] = "o";
         }
         setCount(count + 1);  // Update the count
@@ -37,6 +36,7 @@ const TicTacToe = () => {
     }
 
     const checkWin = () => {
+        // Check for win conditions
         if (data[0] === data[1] && data[1] === data[2] && data[2] !== "") {
             won(data[2]);
         }
@@ -61,16 +61,20 @@ const TicTacToe = () => {
         else if (data[2] === data[4] && data[4] === data[6] && data[6] !== "") {
             won(data[6]);
         }
+        // Check for tie
+        else if (data.every(cell => cell !== "")) {
+            won("");
+        }
     }
 
     const won = (winner) => {
         setLock(true);
         if (winner === "x") {
-            titleRef.current.innerHTML = `Congratulations: <img src=${cross_icon}> wins`;
+            titleRef.current.innerHTML = `Congratulations: <img src=${cross_icon} alt='cross'/> wins`;
         } else if (winner === "o") {
-            titleRef.current.innerHTML = `Congratulations: <img src=${circle_icon}> wins`;
+            titleRef.current.innerHTML = `Congratulations: <img src=${circle_icon} alt='circle'/> wins`;
         } else {
-            titleRef.current.innerHTML = `No winner`;
+            titleRef.current.innerHTML = `It's a tie!`;
         }
     }
 
